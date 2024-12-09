@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploader et Renommer un Fichier</title>
+</head>
+
+<body>
+    <h1>Convertisseur de ficher .cpp en .cc </h1>
+
+    <!-- Formulaire pour uploader un fichier -->
+    <form id="file-form">
+        <label for="file">Choisissez un fichier :</label>
+        <input type="file" id="file" required><br><br>
+
+        <button type="submit">Renommer en .cc et Télécharger</button>
+    </form>
+
+    <script>
+        document.getElementById("file-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            // Récupère le fichier uploadé
+            const fileInput = document.getElementById("file");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Veuillez sélectionner un fichier.");
+                return;
+            }
+
+            const newName = file.name.split('.')[0];
+            // Récupère la nouvelle extension
+            const newExtension = "cpp"
+
+            // Crée un nouveau fichier Blob avec le contenu du fichier original
+            const blob = new Blob([file], { type: file.type });
+
+            // Crée le nouveau nom complet avec l'extension choisie
+            const newFileName = `${newName}.${newExtension}`;
+
+            // Crée un lien pour télécharger le fichier renommé
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = newFileName;
+
+            // Simule un clic pour lancer le téléchargement
+            link.click();
+
+            // Libère l'URL Blob après le téléchargement
+            URL.revokeObjectURL(link.href);
+        });
+    </script>
+</body>
+
+</html>
